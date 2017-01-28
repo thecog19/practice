@@ -17,7 +17,7 @@ class FootballModel
     #each element of the game array represents a game, with the teams separated by commas. 
 
     #this function is kind of long, but we're avoiding doing two loops over the game array by both building and populating the hash in the same loop 
-    
+
     results_hash = {}
 
     game_array.each do |game|
@@ -72,7 +72,22 @@ class FootballModel
     #which in ruby are a-z, in increasing order from 97
     sorted_results = results_hash.sort_by {|team, score| [score, -team[0].ord]}
 
-    return sorted_results.reverse
+    sorted_results = sorted_results.reverse
+  end
+
+  def insert_rankings(results_array)
+    curr_score = results_array[0][1]
+    curr_rank = 1
+    write_rank = 1
+    results_array.each do |result|
+      if result[1] != curr_score
+        write_rank = curr_rank
+        curr_score = result[1]
+      end
+      result << write_rank
+      curr_rank += 1
+    end
+    results_array
   end
 
 end

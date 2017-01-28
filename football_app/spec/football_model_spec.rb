@@ -63,9 +63,11 @@ describe FootballModel do
     it "returns an array" do
       expect(@model.format_results(@hash).class).to eq(Array)
     end
+
     it "is sorted by scores, highest first" do 
       expect(@model.format_results(@hash)).to match_array([["team1", 10], ["team6", 9], ["team3", 5]])
     end
+
     it "ties are sorted alphabetically " do
       tied_hash = {
         "aaz" => 1,
@@ -90,5 +92,26 @@ describe FootballModel do
       expect(@model.format_results(alphabet_hash)).to match_array([["a", 4], ["b", 4], ["g", 2], ["c", 1], ["za", 1], ["zb", 1]])
 
     end
+  end
+
+  describe "#insert_ranking" do
+    #these tests are a little brittle, but match the scope of the model
+    before(:each) do
+      @array = [["team 1", 5], ["team2", 3], ["team3", 3], ["team4", 3], ["team4", 1]]
+    end
+
+    it "adds a ranking to each item in the array" do
+      expect(@model.insert_rankings(@array)[0].length).to eq(3)
+    end
+
+    it "the ranking makes logical sense" do
+      expect(@model.insert_rankings(@array)[4][2]).to eq(5)
+    end
+
+
+    it "tied results all have the same rank" do
+      expect(@model.insert_rankings(@array)[3][2]).to eq(2)
+    end
+
   end
 end

@@ -13,6 +13,7 @@ class FootballController
     game_array = @model.get_game_array(input)
     results_hash = @model.generate_hash(game_array)
     fomatted_results = @model.format_results(results_hash)
+    fomatted_results = @model.insert_rankings(fomatted_results)
     @view.output_results(fomatted_results)
   end
 
